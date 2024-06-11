@@ -1,0 +1,63 @@
+Z1
+
+addMe :: Integer -> Integer -> Integer
+addMe x y = x + y
+
+main :: IO ()
+main = do
+  putStr "Sum of x + y = "
+  print(addMe 10 25)
+
+
+Z2
+
+a) if-else:
+
+solve :: Float -> Float -> Float -> (Float, Float)
+solve a b c = 
+  if delta >= 0
+    then ((-b - sqrt delta) / (2 * a), (-b + sqrt delta) / (2 * a))
+    else error "Brak rozwiazan rzeczywistych"
+  where 
+    delta = b^2 - 4 * a * c
+
+main :: IO ()
+main = do
+  print(solve 1 5 3)
+
+
+b) guardians:
+
+solve :: Float -> Float -> Float -> (Float, Float)
+solve a b c 
+  | delta >= 0 =((-b - sqrt delta) / (2 * a), (-b + sqrt delta) / (2 * a))
+  | otherwise = error "Brak rozwiazan rzeczywistych"
+  where 
+    delta = b^2 - 4 * a * c
+
+main :: IO ()
+main = do
+  print(solve 1 5 3)
+
+
+Z3
+
+factorial :: Integer -> Integer
+factorial 0 = 1
+factorial n = n * factorial(n - 1)
+
+main :: IO ()
+main = do
+  print(factorial 4)
+
+
+Z4
+
+fibonacci :: Integer -> Integer
+fibonacci x
+  | x <= 2 = 1
+  | otherwise = fibonacci(x - 1) + fibonacci(x - 2)
+  
+main :: IO ()
+main = do
+  print(fibonacci 6)

@@ -1,0 +1,139 @@
+Z1
+
+Tworzenie list nieskończonych jest możliwe, ponieważ Haskell oblicza tylko te wartości iteratorów, których w danym momencie potrzebuje (tak zwane "leniwe" obliczanie wartości, podobnie działa Rust). Nie musi więc obliczać całego nieskończonego ciągu (co oczywiście byłoby niemożliwe), a jedynie jego cząstkę.
+W przykładzie pierwszym będzie on liczył kolejne liczby, dopóki ich kwadrat będzie wynosił mniej niż 50.
+W drugim przykładzie nawet w ogóle nie musi ich liczyć, ponieważ funkcja snd będzie zawsze zwracała drugi element krotki.
+
+
+Z2
+
+W Haskellu każdy element jest funkcją, więc niestety nie ma w nim czegoś takiego jak iteracja.
+(https://media1.tenor.com/m/JQZPRf0YTicAAAAd/emoji-in-distress-emoji-sad.gif)
+Zapętlone wywołania muszą więc opierać się na rekurencji. Na tej zasadzie działa w tym zadaniu funkcja nat2int. Dla argumentu Zero przyjmuje wartość 0, natomiast dla Nast (następnika liczby) przyjmuje 1 (następnik zera) i rekurencyjne wywołanie samej siebie.
+W ten sposób możemy obliczyć każdą liczbę naturalną jako serię następników zera.
+
+Z3
+
+main :: IO()
+main = do
+  print(rev [1, 2, 3, 4])
+  
+  
+rev :: [a] -> [a]
+rev [] = []
+rev (first:rest) = rev rest ++ [first]
+
+--zbędnik
+rev' :: [a] -> [a] -> [a]
+rev' [] m = m
+rev' (first:rest) n = rev' rest (first:n)
+
+
+Z4
+
+main :: IO()
+main = do
+  print(tabliczka)
+  
+tabliczka :: [(Integer, Integer, Integer)]
+tabliczka = [(x, y, x * y) | x <- [1..12], y <- [1..12]]
+
+
+Z5
+
+main :: IO()
+main = do
+  print(combination(colors))
+
+type Color = String
+
+colors :: [Color]
+colors = ["black", "white", "blue", "yellow", "red"]
+
+combination :: [Color] -> [(Color, Color)]
+combination [] = []
+combination (first:rest) = [(first, x) | x <- rest] ++ combination rest
+
+
+Z6
+
+a)
+main :: IO()
+main = do
+  print (append [1, 2, 3] [1, 2, 3])
+  
+append :: [a] -> [a] -> [a]
+append [] [] = []
+append l m = l ++ m
+
+b)
+main :: IO()
+main = do
+  print(member 1 [3, 2, 1])
+
+member :: Eq a => a -> [a] -> Bool
+member x [] = False
+member x (first:rest) = x == first || member x rest
+
+c)
+main :: IO()
+main = do
+  print(Main.last [3, 2, 1])
+
+last :: Eq a => [a] -> Maybe a
+last [] = Nothing
+last (first:rest)
+  | rest == [] = Just first
+  | otherwise = (Main.last rest)
+
+d)
+main :: IO()
+main = do
+  print(delete 1 [3, 2, 1])
+
+delete :: Eq a => a -> [a] -> [a]
+delete x [] = []
+delete x (first:rest)
+  | x == first = rest
+  | otherwise = first:(delete x rest)
+
+e)
+main :: IO()
+main = do
+  print(split 2 [3, 2, 1, 4, 5, 1])
+
+split :: Ord a => a -> [a] -> ([a], [a])
+split a [] = ([], [])
+split a (first:rest)
+  | first < a = ([first] ++ lower, higher)
+  | first > a = (lower, [first] ++ higher)
+  | first == a = (lower, higher)    --w treści zadania nie ma mowy o równych wartościach
+  where (lower, higher) = split a rest
+
+
+Z7
+
+main :: IO()
+main = do
+  print(Main.filter (< 5) [2..16])
+
+filter :: (a -> Bool) -> [a] -> [a]
+filter a [] = []
+filter a (first:rest)
+  | a first = first:filtered
+  | otherwise = filtered
+  where filtered = Main.filter a rest
+
+
+Funkcja filter ma typ zwracany [a], czyli lista generycznych typów.
+Ciekawy moim zdaniem jest sposób przekazywania predykatu do funkcji (typ generyczny, który zwraca boola).
+
+
+
+
+
+
+
+
+
+

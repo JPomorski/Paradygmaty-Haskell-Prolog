@@ -1,0 +1,141 @@
+Z1
+
+rodzic(X, zeus)
+X = cronus
+X = rhea
+
+
+Z2
+
+diff(red, green).
+diff(red, blue).
+diff(green, red).
+diff(green, blue).
+diff(blue, red).
+diff(blue, green).
+
+color(Podk, Lube, Mazo, Podl, Warm) :-
+    diff(Podk, Lube),
+    diff(Lube, Podk),
+    diff(Lube, Mazo),
+    diff(Lube, Podl),
+    diff(Mazo, Lube),
+    diff(Mazo, Podl),
+    diff(Mazo, Warm),
+    diff(Podl, Lube),
+    diff(Podl, Mazo),
+    diff(Podl, Warm),
+    diff(Warm, Podl),
+    diff(Warm, Mazo).
+
+color(Podk, Lube, Mazo, Podl, Warm)
+
+================================
+działa też wersja bez powtórzeń:
+
+color(Podk, Lube, Mazo, Podl, Warm) :-
+    diff(Podk, Lube),
+    diff(Lube, Mazo),
+    diff(Lube, Podl),
+    diff(Mazo, Podl),
+    diff(Mazo, Warm),
+    diff(Podl, Warm).
+
+Lube = Warm, Warm = green,
+Mazo = Podk, Podk = red,
+Podl = blue
+Lube = Warm, Warm = green,
+Mazo = blue,
+Podk = Podl, Podl = red
+Lube = Warm, Warm = blue,
+Mazo = Podk, Podk = red,
+Podl = green
+Lube = Warm, Warm = blue,
+Mazo = green,
+Podk = Podl, Podl = red
+Lube = Warm, Warm = red,
+Mazo = Podk, Podk = green,
+Podl = blue
+Lube = Warm, Warm = red,
+Mazo = blue,
+Podk = Podl, Podl = green
+Lube = Warm, Warm = blue,
+Mazo = red,
+Podk = Podl, Podl = green
+Lube = Warm, Warm = blue,
+Mazo = Podk, Podk = green,
+Podl = red
+Lube = Warm, Warm = red,
+Mazo = green,
+Podk = Podl, Podl = blue
+Lube = Warm, Warm = red,
+Mazo = Podk, Podk = blue,
+Podl = green
+Lube = Warm, Warm = green,
+Mazo = red,
+Podk = Podl, Podl = blue
+Lube = Warm, Warm = green,
+Mazo = Podk, Podk = blue,
+Podl = red
+
+
+Z3
+
+nwd(X, Y, Nwd) :-
+    X = Y,
+    Nwd = X.
+    
+nwd(X, Y, Nwd) :-
+    X > Y,
+    X1 is X - Y,
+    nwd(X1, Y, Nwd).
+
+nwd(X, Y, Nwd) :-
+    X < Y,
+    Y1 is Y - X,
+    nwd(X, Y1, Nwd).
+
+
+nwd(56, 98, Nwd)
+Nwd = 14
+
+
+Z4
+
+dostepny(s1).
+dostepny(s2).
+
+wymaga(p1, s1).
+wymaga(p1, s2).
+wymaga(p2, s3).
+
+potrzebuje(X, Y) :-
+    wymaga(X, Y).
+
+moznaprodukowac(X) :-
+    forall(potrzebuje(X, S), dostepny(S)).
+
+
+moznaprodukowac(p1)
+true
+
+
+Z5
+
+Instrukcja append łączy ze sobą dwie listy. Można jej też użyć do sprawdzenia, jakie elementy utworzą szukaną listę:
+
+append([olej], [woda], [olej, woda]). - true
+append([olej], [woda], Co). - Co = [olej, woda]
+append([olej], Co, [olej, woda]). - Co = [woda]
+
+
+Z6
+
+Instrukcja select zachowuje się podobnie jak first:rest, którego używaliśmy w Haskellu. Pierwszy element to początkowy element ciągu (head), drugim jest sam ciąg, a trzeci to jego reszta.
+
+select(X,[1,2,3],L).
+L = [2, 3],
+X = 1
+
+select(a,L,[1,2,3]).
+L = [a, 1, 2, 3]
